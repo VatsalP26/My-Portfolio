@@ -16,27 +16,6 @@ body {
   flex-direction: column;
 }
 
-.header {
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  &.glass {
-    background: rgba(30, 30, 30, 0.7);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  }
-  h1 {
-    margin: 0;
-    font-size: 1.8rem;
-    color: $accent;
-  }
-}
-
 .home {
   position: relative;
   padding: 0 2rem;
@@ -44,7 +23,7 @@ body {
 
 .sidebar-nav {
   position: fixed;
-  right: 2rem;
+  left: 2rem;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
@@ -149,40 +128,48 @@ body {
 }
 
 .skills-section {
-  .skills-badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
   }
-  .skill-badge {
-    background: color.adjust($primary, $lightness: 15%);
-    padding: 0.75rem 1.5rem;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1rem;
-    border: 1px solid $accent;
-    .level {
-      background: $accent;
-      color: $primary;
-      padding: 0.2rem 0.5rem;
-      border-radius: 12px;
-      font-size: 0.9rem;
+  .skill-card {
+    .pixel-card {
+      width: 100px;
+      height: 100px;
+      border: 1px solid $accent;
+      background: color.adjust($primary, $lightness: 5%);
+      transition: transform 0.3s;
+      &:hover {
+        transform: translateY(-5px);
+      }
+    }
+    .skill-content {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: $white;
+      .skill-icon {
+        width: 25px;
+        height: 25px;
+      }
+      span {
+        font-size: 1rem;
+        font-weight: 500;
+      }
     }
   }
 }
 
-.projects-section,
-.certifications-section {
-  .projects-grid,
-  .certifications-list {
+.projects-section {
+  .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
   }
-  .project-card,
-  .certification-item {
+  .project-card {
     .card-spotlight {
       background-color: color.adjust($primary, $lightness: 5%);
       border: 1px solid $accent;
@@ -205,6 +192,18 @@ body {
         transform: translateY(-5px);
       }
     }
+  }
+}
+
+.certifications-section {
+  .carousel-container {
+    width: 100%;
+    max-width: 450px; /* Match the baseWidth in Home.jsx */
+    margin: 0 auto;
+    background: color.adjust($primary, $lightness: 5%);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   }
 }
 
@@ -248,18 +247,9 @@ body {
   }
 }
 
-footer {
-  text-align: center;
-  padding: 1.5rem;
-  background: color.adjust($primary, $lightness: -5%);
-  font-size: 0.9rem;
-  position: relative;
-  z-index: 1;
-}
-
 @media (max-width: 600px) {
   .sidebar-nav {
-    display: none; // Hide sidebar on mobile; can add hamburger menu later
+    display: none;
   }
   .hero-section {
     h1 {
@@ -275,8 +265,30 @@ footer {
   .section {
     padding: 3rem 1rem;
   }
-  .projects-grid,
-  .certifications-list {
+  .projects-grid {
     grid-template-columns: 1fr;
+  }
+  .skills-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    .skill-card {
+      .pixel-card {
+        width: 120px;
+        height: 160px;
+      }
+      .skill-content {
+        .skill-icon {
+          width: 30px;
+          height: 30px;
+        }
+        span {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+  .certifications-section {
+    .carousel-container {
+      max-width: 300px; /* Smaller width for mobile */
+    }
   }
 }
