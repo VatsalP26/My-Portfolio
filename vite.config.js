@@ -12,6 +12,9 @@ export default defineConfig({
       },
     },
   },
+  define: {
+    "process.env": {}, // Ensure Vite exposes environment variables
+  },
   css: {
     preprocessorOptions: {
       scss: {

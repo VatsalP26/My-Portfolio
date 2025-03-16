@@ -76,10 +76,10 @@ const fragment = /* glsl */ `
 `;
 
 const Particles = ({
-  particleCount = 200,
+  particleCount = 2000,
   particleSpread = 10,
   speed = 0.1,
-  particleColors = ["#00ffcc", "#ffffff"], // Custom colors matching theme
+  particleColors = ["#00ffcc", "#ffffff"], 
   moveParticlesOnHover = true,
   particleHoverFactor = 1,
   alphaParticles = false,

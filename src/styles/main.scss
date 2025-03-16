@@ -196,14 +196,115 @@ body {
 }
 
 .certifications-section {
-  .carousel-container {
+  .certificate-slider {
     width: 100%;
-    max-width: 450px; /* Match the baseWidth in Home.jsx */
+    max-width: 400px; 
     margin: 0 auto;
+  }
+
+  .certificate-slide {
+    display: flex !important; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background: color.adjust($primary, $lightness: 5%);
     border-radius: 12px;
-    overflow: hidden;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    height: 500px;
+    width: 400px; 
+    overflow: hidden;
+    text-align: center; 
+  }
+
+  .certificate-slide img {
+    width: 100%;
+    max-height: 80%;
+    object-fit: contain; 
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+  }
+
+  .certificate-slide:hover img {
+    transform: scale(1.05); 
+  }
+
+  .certificate-slide p {
+    font-size: 0.9rem;
+    margin-top: 10px;
+    text-align: center;
+    color: $white;
+    padding: 0 10px;
+    width: 90%;
+    line-height: 1.2;
+    word-wrap: break-word;
+  }
+
+  .slick-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 85%;
+    transform: translateX(-50%);
+    display: flex !important;
+    gap: 8px;
+    z-index: 2;
+    list-style: none;
+    padding: 0;
+  }
+
+  .slick-dots li {
+    margin: 0;
+  }
+
+  .slick-dots li button {
+    width: 10px;
+    height: 10px;
+    background: $white;
+    opacity: 0.5;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: opacity 0.3s, background 0.3s;
+    border: none;
+    padding: 0;
+  }
+
+  .slick-dots li button:before {
+    content: none;
+  }
+
+  .slick-dots .slick-active button {
+    opacity: 1;
+    background: $accent;
+  }
+
+  .carousel-message {
+    text-align: center;
+    font-size: 0.9rem;
+    color: $white;
+    opacity: 0.8;
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .certifications-section .certificate-slider {
+    max-width: 320px;
+  }
+
+  .certifications-section .certificate-slide {
+    padding: 15px;
+    height: 400px;
+  }
+
+  .certifications-section .certificate-slide img {
+    max-height: 75%;
+  }
+
+  .certifications-section .certificate-slide p {
+    font-size: 0.8rem;
+  }
+
+  .certifications-section .carousel-message {
+    font-size: 0.8rem;
   }
 }
 
@@ -288,7 +389,10 @@ body {
   }
   .certifications-section {
     .carousel-container {
-      max-width: 300px; /* Smaller width for mobile */
+      max-width: 300px;
+    }
+    .carousel-message {
+      font-size: 0.8rem;
     }
   }
 }

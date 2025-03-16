@@ -1,13 +1,15 @@
-// src/pages/Home.jsx
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import Particles from "../components/Particles";
 import SpotlightCard from "../components/SpotlightCard";
 import PixelCard from "../components/PixelCard";
 import Carousel from "../components/Carousel";
+import Slider from "react-slick"; // Import react-slick
+import "slick-carousel/slick/slick.css"; // Import slick carousel CSS
+import "slick-carousel/slick/slick-theme.css";
 import emailjs from "@emailjs/browser"; // Import EmailJS
 
-// Import SVG icons
+// Importing SVG icons
 import ReactIcon from "../assets/icons/react.svg";
 import JavaScriptIcon from "../assets/icons/javascript.svg";
 import CSSIcon from "../assets/icons/css.svg";
@@ -24,21 +26,21 @@ import SwiftIcon from "../assets/icons/swift.svg";
 import DevOpsIcon from "../assets/icons/devops.png";
 import PostmanIcon from "../assets/icons/postman.svg";
 
-// Import certificate and award images
+// Importing certificate and award images
 import deansListFall2022 from "../assets/images/Dean_letter-Fall2022.jpg";
 import deansListWinter2023 from "../assets/images/Dean_letter-Winter2023.jpg";
 import machineLearningCert from "../assets/images/MachineLearningCert.jpg";
 import springBootCert from "../assets/images/SpringBootCert.jpg";
 import WebDevelopmentCert from "../assets/images/WebDevelopmentCert.jpg";
 
-// Debug: Log the imported image URLs
-console.log("Imported Images:", {
-  machineLearningCert,
-  springBootCert,
-  WebDevelopmentCert,
-  deansListFall2022,
-  deansListWinter2023,
-});
+// // Debug: Log the imported image URLs
+// console.log("Imported Images:", {
+//   machineLearningCert,
+//   springBootCert,
+//   WebDevelopmentCert,
+//   deansListFall2022,
+//   deansListWinter2023,
+// });
 
 const Home = () => {
   const [currentSection, setCurrentSection] = useState("hero");
@@ -49,7 +51,7 @@ const Home = () => {
   const projectsRef = useRef(null);
   const certificationsRef = useRef(null);
   const contactRef = useRef(null);
-  const formRef = useRef(); // Ref for the form to be used with EmailJS
+  const formRef = useRef(); 
 
   useEffect(() => {
     const sections = [
@@ -86,13 +88,12 @@ const Home = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    emailjs
-      .sendForm(
-        "service_h2dc9ul", // Replace with your EmailJS Service ID
-        "template_aknt865", // Replace with your EmailJS Template ID
-        formRef.current,
-        "JsqOJf9NMOVLvJ3qk" // Replace with your EmailJS User ID
-      )
+    emailjs.sendForm(
+      import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      formRef.current,
+      import.meta.env.VITE_EMAILJS_USER_ID
+    )
       .then(
         (result) => {
           alert("Message sent successfully!");
@@ -158,6 +159,23 @@ const Home = () => {
       text: "Dean’s List: Winter 2023",
     },
   ];
+
+  const carouselSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    pauseOnHover: true,
+    cssEase: "linear",
+    adaptiveHeight: true,
+    vertical: false, 
+    onInit: () => console.log("Carousel initialized"),
+    onReInit: () => console.log("Carousel re-initialized"),
+    onError: (error) => console.error("Carousel error:", error),
+  };
 
   return (
     <div className="home">
@@ -255,11 +273,10 @@ const Home = () => {
           transition={{ delay: 0.2, duration: 0.5 }}
           viewport={{ once: true }}
         >
-          I’m Vatsal Prajapati, a recent graduate with an Advanced Diploma in
+          I’m Vatsal Prajapati, an undergrad student pursuing Advanced Diploma in
           Computer Programming and Analysis. I’m passionate about creating modern,
           responsive web applications using technologies like React.js and Framer
-          Motion. My focus is on building user-friendly experiences that are both
-          visually appealing and highly functional.
+          Motion.
         </motion.p>
         <motion.p
           initial={{ opacity: 0 }}
@@ -268,7 +285,7 @@ const Home = () => {
           viewport={{ once: true }}
         >
           In my projects, I’ve explored a range of tools and frameworks, from
-          building interactive portfolios to task management apps. I’m eager to
+          building interactive Web applications to Mobile applications. I’m eager to
           contribute to innovative projects and grow as a full-stack developer.
         </motion.p>
       </section>
@@ -338,11 +355,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section
-        id="certifications"
-        ref={certificationsRef}
-        className="section certifications-section"
-      >
+      <section id="certifications" ref={certificationsRef} className="section certifications-section">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -358,16 +371,34 @@ const Home = () => {
           viewport={{ once: true }}
           style={{ display: "flex", justifyContent: "center" }}
         >
-          <Carousel
-            items={certificates}
-            baseWidth={600}
-            autoplay={true}
-            autoplayDelay={5000}
-            pauseOnHover={true}
-            loop={true}
-            round={false}
-          />
+          <Slider
+            {...carouselSettings}
+            className="certificate-slider"
+            style={{ width: "500px" }} // Match the previous width
+          >
+            {certificates.map((cert, index) => (
+              <div key={index} className="certificate-slide">
+                <img
+                  src={cert.image}
+                  alt={cert.text}
+                  onError={(e) => console.error(`Image load failed for ${cert.text}:`, e)}
+                  onLoad={() => console.log(`Image loaded: ${cert.text}`)}
+                  style={{ width: "100%", height: "auto" }}
+                />
+                <p>{cert.text}</p>
+              </div>
+            ))}
+          </Slider>
         </motion.div>
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          viewport={{ once: true }}
+          className="carousel-message"
+        >
+          Hover to stop rotating
+        </motion.p>
       </section>
 
       <section id="contact" ref={contactRef} className="section contact-section">
@@ -380,7 +411,7 @@ const Home = () => {
           Contact Me
         </motion.h2>
         <motion.form
-          ref={formRef} // Attach the ref to the form for EmailJS
+          ref={formRef}
           className="contact-form"
           onSubmit={handleSubmit}
           initial={{ opacity: 0 }}
@@ -399,7 +430,7 @@ const Home = () => {
             <input
               type="text"
               id="user_name"
-              name="user_name" // Match EmailJS template variable
+              name="user_name"
               required
             />
           </motion.div>
@@ -414,7 +445,7 @@ const Home = () => {
             <input
               type="email"
               id="user_email"
-              name="user_email" // Match EmailJS template variable
+              name="user_email"
               required
             />
           </motion.div>
