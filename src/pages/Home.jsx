@@ -3,11 +3,10 @@ import { useState, useEffect, useRef } from "react";
 import Particles from "../components/Particles";
 import SpotlightCard from "../components/SpotlightCard";
 import PixelCard from "../components/PixelCard";
-import Carousel from "../components/Carousel";
-import Slider from "react-slick"; // Import react-slick
-import "slick-carousel/slick/slick.css"; // Import slick carousel CSS
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import emailjs from "@emailjs/browser"; // Import EmailJS
+import emailjs from "@emailjs/browser";
 
 // Importing SVG icons
 import ReactIcon from "../assets/icons/react.svg";
@@ -25,6 +24,8 @@ import DockerIcon from "../assets/icons/docker.svg";
 import SwiftIcon from "../assets/icons/swift.svg";
 import DevOpsIcon from "../assets/icons/devops.png";
 import PostmanIcon from "../assets/icons/postman.svg";
+import GitHubIcon from "../assets/icons/github.svg";
+import LinkedInIcon from "../assets/icons/linked'N.svg";
 
 // Importing certificate and award images
 import deansListFall2022 from "../assets/images/Dean_letter-Fall2022.jpg";
@@ -32,15 +33,6 @@ import deansListWinter2023 from "../assets/images/Dean_letter-Winter2023.jpg";
 import machineLearningCert from "../assets/images/MachineLearningCert.jpg";
 import springBootCert from "../assets/images/SpringBootCert.jpg";
 import WebDevelopmentCert from "../assets/images/WebDevelopmentCert.jpg";
-
-// // Debug: Log the imported image URLs
-// console.log("Imported Images:", {
-//   machineLearningCert,
-//   springBootCert,
-//   WebDevelopmentCert,
-//   deansListFall2022,
-//   deansListWinter2023,
-// });
 
 const Home = () => {
   const [currentSection, setCurrentSection] = useState("hero");
@@ -51,7 +43,7 @@ const Home = () => {
   const projectsRef = useRef(null);
   const certificationsRef = useRef(null);
   const contactRef = useRef(null);
-  const formRef = useRef(); 
+  const formRef = useRef();
 
   useEffect(() => {
     const sections = [
@@ -97,7 +89,7 @@ const Home = () => {
       .then(
         (result) => {
           alert("Message sent successfully!");
-          formRef.current.reset(); // Clear the form
+          formRef.current.reset();
         },
         (error) => {
           alert("Failed to send message. Please try again later.");
@@ -126,14 +118,39 @@ const Home = () => {
 
   const projects = [
     {
-      title: "Online Booking App",
-      description: "A booking application built with C#.",
-      link: "https://github.com/VatsalP26/OnlineBookingApp",
+      category: "Professional",
+      items: [
+        {
+          title: "XploreOn Web App",
+          description: "An online booking personalized itinerary generator application built with React & NodeJs.",
+          link: "https://github.com/jemishkevadiya/XploreOn_Frontend/tree/vatsal",
+        },
+        {
+          title: "XploreOn Mobile App",
+          description: "Android version of our XploreOn booking app with improved features.",
+          link: "https://github.com/jemishkevadiya/XploreOn_MobileApp/tree/vatsal",
+        },
+      ],
     },
     {
-      title: "Online Booking App 2.0",
-      description: "An enhanced version of the booking app with improved features.",
-      link: "https://github.com/VatsalP26/OnlineBookingApp2.0",
+      category: "Personal",
+      items: [
+        {
+          title: "Weather Dashboard",
+          description: "A responsive weather dashboard using React and OpenWeather API, displaying real-time weather updates.",
+          link: "https://github.com/VatsalP26/weather-dashboard",
+        },
+        {
+          title: "Portfolio Website",
+          description: "A personal portfolio showcasing my projects, skills, and certifications, built with React and SCSS.",
+          link: "https://github.com/VatsalP26/My-Portfolio", 
+        },
+        {
+          title: "Real-Time Chat Application",
+          description: "A real-time chat application featuring user authentication, login functionality, and group chat interface.",
+          link: "https://github.com/VatsalP26/chat-app",
+        },
+      ],
     },
   ];
 
@@ -171,7 +188,7 @@ const Home = () => {
     pauseOnHover: true,
     cssEase: "linear",
     adaptiveHeight: true,
-    vertical: false, 
+    vertical: false,
     onInit: () => console.log("Carousel initialized"),
     onReInit: () => console.log("Carousel re-initialized"),
     onError: (error) => console.error("Carousel error:", error),
@@ -212,6 +229,28 @@ const Home = () => {
       </nav>
 
       <section id="hero" ref={heroRef} className="hero-section">
+        <motion.div
+          className="resume-links"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+        >
+          <a
+            href="/resume.pdf"
+            download="Vatsal_Prajapati_Resume.pdf"
+            className="download-button"
+          >
+            Resume
+          </a>
+          <a
+            href="/cover-letter.pdf"
+            download="Vatsal_Prajapati_Cover_Letter.pdf"
+            className="download-button"
+          >
+            Cover Letter
+          </a>
+        </motion.div>
+
         <motion.h1
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -245,15 +284,17 @@ const Home = () => {
             href="https://github.com/VatsalP26"
             target="_blank"
             rel="noopener noreferrer"
+            className="social-icon"
           >
-            <span className="icon">GitHub</span>
+            <img src={GitHubIcon} alt="GitHub Icon" />
           </a>
           <a
             href="https://linkedin.com/in/vatsal-prajapati26/"
             target="_blank"
             rel="noopener noreferrer"
+            className="social-icon"
           >
-            <span className="icon">LinkedIn</span>
+            <img src={LinkedInIcon} alt="LinkedIn Icon" />
           </a>
         </motion.div>
       </section>
@@ -333,26 +374,39 @@ const Home = () => {
         >
           Projects
         </motion.h2>
-        <div className="projects-grid">
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              className="project-card"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.2, duration: 0.5 }}
+        {projects.map((category, catIndex) => (
+          <div key={catIndex} className="project-category">
+            <motion.h3
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
               viewport={{ once: true }}
+              className="category-title"
             >
-              <SpotlightCard spotlightColor="rgba(0, 255, 204, 0.2)">
-                <h3>{project.title}</h3>
-                <p>{project.description}</p>
-                <a href={project.link} target="_blank" rel="noopener noreferrer">
-                  View on GitHub
-                </a>
-              </SpotlightCard>
-            </motion.div>
-          ))}
-        </div>
+              {category.category}
+            </motion.h3>
+            <div className={`projects-grid ${category.category.toLowerCase()}`}>
+              {category.items.map((project, projIndex) => (
+                <motion.div
+                  key={projIndex}
+                  className="project-card"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: (catIndex * 0.4 + projIndex * 0.2), duration: 0.5 }}
+                  viewport={{ once: true }}
+                >
+                  <SpotlightCard spotlightColor="rgba(0, 255, 204, 0.2)">
+                    <h4>{project.title}</h4>
+                    <p>{project.description}</p>
+                    <a href={project.link} target="_blank" rel="noopener noreferrer">
+                      View on GitHub
+                    </a>
+                  </SpotlightCard>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        ))}
       </section>
 
       <section id="certifications" ref={certificationsRef} className="section certifications-section">
@@ -374,7 +428,7 @@ const Home = () => {
           <Slider
             {...carouselSettings}
             className="certificate-slider"
-            style={{ width: "500px" }} // Match the previous width
+            style={{ width: "500px" }}
           >
             {certificates.map((cert, index) => (
               <div key={index} className="certificate-slide">
@@ -459,7 +513,7 @@ const Home = () => {
             <label htmlFor="message">Message</label>
             <textarea
               id="message"
-              name="message" // Match EmailJS template variable
+              name="message"
               required
             />
           </motion.div>
